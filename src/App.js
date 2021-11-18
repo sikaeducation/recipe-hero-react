@@ -17,14 +17,21 @@ const App = () => {
       .then(parsed => {
         console.log('parsed ', parsed);
         setError(false)
-        const listOfIngredients = []
-        parsed.recipes.forEach(recipe => {
-          recipe.ingredients.forEach(ingredient => {
-            if (listOfIngredients.indexOf(ingredient) == -1 ) {
-              listOfIngredients.push(ingredient)
-            }
-          })
-        })
+        // const listOfIngredients = []
+        // parsed.recipes.forEach(recipe => {
+        //   recipe.ingredients.forEach(ingredient => {
+        //     if (listOfIngredients.indexOf(ingredient) === -1 ) {
+        //       listOfIngredients.push(ingredient)
+        //     }
+        //   })
+        // })
+        const listOfIngredients = [
+          ...new Set(                                                      // Ensures uniqueness
+              parsed.recipes
+                  .map(recipe => recipe.ingredients)     // Gets an array of each ingredients array
+                  .flat()                                                      // Flattens them into one array
+          )
+       ]
         setRecipes(parsed.recipes)
         setIngredientsList(listOfIngredients)
         console.log('ingredients ', listOfIngredients);
